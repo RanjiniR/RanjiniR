@@ -3,9 +3,10 @@ package com.service;
 import java.util.List;
 
 import com.entity.Donut;
+import com.entity.DonutQ;
 
 import jakarta.ws.rs.Consumes;
-
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -23,7 +24,8 @@ public class RestService {
 
 	private Donut donuts;
 	private List<Donut> donutList = null;
-	private DonutQController donutController = new DonutQController();
+	private List<DonutQ> donutQList = null;
+	private DonutController donutController = new DonutController();
 
 	@Context
 	private UriInfo uriInfo;
@@ -43,20 +45,27 @@ public class RestService {
 
 	}
 
-	//change the method to include the q and waiting time
 	@GET
 	public Response getAllActiveCustomers() {
-		donutList = donutController.getActiveCustomerList();
-		return Response.ok(donutList).build();
+		donutQList = donutController.getCustomerWaitingList();
+		return Response.ok(donutQList).build();
 	}
 
 	
-	//modify the controller to show the q and time remaining
 	@GET
 	@Path("/cust")
-	public List<Donut> getCustOrders(@PathParam("id") Integer id) {
+	public List<Donut> getCustOrder(@PathParam("id") Integer id) {
 		donutList = donutController.getCustomerOrders(id);
 		return donutList;
 	}
+	
+	
+	 @DELETE
+	  @Path("{custId}")
+	  public boolean deleteOrderById(@PathParam("custId") int custId) {
+	      return donutController.cancelCustOrder(custId);
+	  }
+	
+	
 
 }

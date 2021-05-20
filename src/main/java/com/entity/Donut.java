@@ -15,6 +15,10 @@ public class Donut {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Donut() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Integer getOrderId() {
 		return orderId;
 	}
